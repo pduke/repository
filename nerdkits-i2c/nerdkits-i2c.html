@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Paul Duke">
+  <title>The NerdKits TWI/I²C Driver — Paul Duke</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/nerdkits-i2c.css">
+</head>
+<body>
+<main>
+  <p><a href="../index.html">&larr; Back to Repository</a></p>
+  <h1>The NerdKits TWI/I²C Driver</h1>
+  <p class="subtitle">An exercise in distributed embedded processing</p>
+  <p class="byline"><strong>Paul Duke</strong> — Originally developed March 2011</p>
+
+  <h2>The NerdKits Days</h2>
+  <p>Around 2011, I set out to learn the Atmel AVR family of microcontrollers. I didn't have a particular project in mind. My objective was simply to gain expertise with the chips and their capabilities.</p>
+  <p>I got started with NerdKits, which was also my first experience participating in an online discussion forum. Most of the guys there had some knowledge of electronics but relatively little experience in software development. I came from the opposite direction, with many years of professional software experience.</p>
+  <p>Before long, I was developing software components and sharing them with the group under the username <strong>Noter</strong>. It was a good exchange of knowledge, and I was having a lot of fun.</p>
+
+  <h2>Intelligent Peripheral Devices</h2>
+  <p>One of the things that interested me was the ability to develop my own intelligent I²C peripheral devices using inexpensive ATmega328 microcontrollers.</p>
+  <p>Rather than being limited to commercially available sensors and peripherals, I could program a microcontroller to perform whatever specialized function I needed and make it accessible through a standard I²C interface.</p>
+  <p>This provided a means of distributing processing responsibilities among several inexpensive microcontrollers.</p>
+
+  <h2>Engineering for Performance</h2>
+  <p>Performance was an important design consideration. I wanted the communications driver to be interrupt-driven so that the processors could continue doing useful work while communications were in progress.</p>
+  <p>The resulting driver incorporated several features:</p>
+  <ul>
+    <li>Master and slave operation.</li>
+    <li>Nonblocking master transactions.</li>
+    <li>Optional application callbacks.</li>
+    <li>Application-supplied communications buffers.</li>
+    <li>Combined write/read transactions without releasing the bus.</li>
+    <li>Slave address masking.</li>
+    <li>General-call addressing.</li>
+    <li>Configurable communications bit rate.</li>
+  </ul>
+  <p>The interrupt handler manages the communications protocol, leaving the application responsible for its own processing.</p>
+
+  <h2>The Demonstration Programs</h2>
+  <p>The original software includes a pair of demonstration programs running on separate AVR microcontrollers.</p>
+  <p>The master sends an integer to the slave. The slave increments the integer and returns the result during the read portion of the transaction. The master verifies the returned value and displays the results on an LCD.</p>
+  <p>Although simple, the demonstration illustrates the ability to distribute application processing between independent microcontrollers using a common communications interface.</p>
+  <p>Interestingly, several capabilities of my original 2011 driver are still not exposed by the standard Arduino AVR Wire interface as of November 2026.</p>
+  <div class="comparison-wrap">
+    <table class="driver-comparison">
+      <thead><tr><th scope="col">Feature</th><th scope="col">NerdKits Driver (2011)</th><th scope="col">Arduino AVR Wire</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Interrupt-driven communications</th><td>Yes</td><td>Yes</td></tr>
+        <tr><th scope="row">Nonblocking master transactions</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Master completion callback</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Combined write/read in one call</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Application-supplied buffer</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">16-bit buffer indexing</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Slave address masking</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">General-call addressing</th><td>Yes</td><td>No</td></tr>
+        <tr><th scope="row">Configurable bit rate</th><td>Yes</td><td>Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p>The two drivers reflect different design objectives. Arduino emphasizes simplicity and ease of use, while my implementation emphasizes application flexibility and asynchronous operation.</p>
+
+  <h2>Source Code Download</h2>
+  <p>Presented here is the original version 1.2, dated March 18, 2011, preserved along with the demonstration programs and supporting libraries.</p>
+  <p>The software was developed in C using the AVR-GCC toolchain and AVR-LibC libraries, independently of the Arduino development environment. The archive includes the original Makefiles and device programming command files.</p>
+  <p>The archive includes:</p>
+  <ul>
+    <li>TWI.c and TWI.h</li>
+    <li>Master and slave demonstration programs</li>
+    <li>Original Makefiles</li>
+    <li>Device programming command files</li>
+    <li>libNoter</li>
+    <li>libnerdkits</li>
+  </ul>
+  <p>The software is preserved in its original form, including its historical build configuration.</p>
+  <p><strong><a href="downloads/nerdkits-i2c.zip" download>Download nerdkits-i2c.zip</a></strong></p>
+  <footer>
+    <p><em>Paul Duke — November 2026</em></p>
+    <p><a href="../index.html">&larr; Back to Repository</a></p>
+  </footer>
+</main>
+</body>
+</html>

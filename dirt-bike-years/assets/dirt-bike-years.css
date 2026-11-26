@@ -1,0 +1,7 @@
+/* Optional page-specific overrides for dirt-bike-years.html.
+   Omit any declaration to use the shared default. */
+
+body {
+    --background-dim: 0.75;
+    /* --background-image: url('dirt-bike-years.webp'); */
+}

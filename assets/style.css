@@ -6,8 +6,19 @@
 body {
     margin: 0;
     padding: 0;
-    background: #031725 url('magnetic-field.webp')
-                center center / cover fixed no-repeat;
+    /* Shared defaults; optional page stylesheets may override these. */
+    --background-image: url('default.webp');
+    --background-dim: 0.50;
+
+    background-color: #031725;
+    background-image:
+        linear-gradient(rgba(3, 23, 37, var(--background-dim)),
+                        rgba(3, 23, 37, var(--background-dim))),
+        var(--background-image);
+    background-position: center center;
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
     color: #e8f1f4;
     font: 18px/1.7 Georgia, serif;
 }
@@ -154,4 +165,43 @@ footer {
     color: #c4dce3;
     font-size: 0.85em;
     line-height: 1.5;
+}
+
+/* Reusable linked thumbnails */
+.thumbnail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin: 12px 0;
+}
+.thumbnail-link {
+    display: block;
+    flex: 0 0 auto;
+    width: var(--thumbnail-width, 120px);
+    max-width: 30%;
+}
+.thumbnail-link img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+}
+.thumbnail-text {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+.repository-index .index-entry h3 {
+    margin-top: 0;
+}
+.reference-entry {
+    --thumbnail-width: 100px;
+}
+.reference-list li {
+    margin-bottom: 18px;
+}
+@media (max-width: 480px) {
+    .thumbnail-row { gap: 10px; }
+    .reference-list { padding-left: 22px; }
 }

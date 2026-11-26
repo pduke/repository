@@ -1,0 +1,38 @@
+/* Page-specific overrides for nerdkits-i2c.html. */
+body {
+--background-image: url('../nerdkits-i2c/assets/nerdkits-i2c.webp');
+    --background-dim: 0.70;
+}
+
+.comparison-wrap {
+    overflow-x: auto;
+    margin: 1.5em 0;
+}
+
+.driver-comparison {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9em;
+    line-height: 1.4;
+}
+
+.driver-comparison th,
+.driver-comparison td {
+    padding: 0.65em 0.75em;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+    text-align: left;
+}
+
+.driver-comparison thead th {
+    color: #b4edf2;
+    border-bottom: 1px solid rgba(140, 230, 239, 0.55);
+}
+
+.driver-comparison tbody th {
+    font-weight: normal;
+}
+
+.driver-comparison td,
+.driver-comparison thead th:not(:first-child) {
+    text-align: center;
+}

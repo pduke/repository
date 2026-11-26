@@ -1,0 +1,51 @@
+/* Optional page-specific overrides for geomagnetic-induction-hypothesis.html.
+   Omit any declaration to use the shared default. */
+
+body {
+--background-image: url('../geomagnetic-induction-hypothesis/assets/geomagnetic-induction-hypothesis.webp');
+    --background-dim: 0.85;
+}
+
+/* Reference section — append to geomagnetic-induction-hypothesis.css */
+main > section:has(> .reference-list) {
+    margin: 1.5em 0;
+}
+
+main > section:has(> .reference-list) + section:has(> .reference-list) {
+    border-top: 1px solid rgba(255, 255, 255, 0.20);
+    padding-top: 1.5em;
+}
+
+.reference-list {
+    font-size: 0.85em;
+    line-height: 1.5;
+    margin: 1em 0 0;
+    padding-left: calc(116px + 1.5em);
+}
+
+.reference-list li {
+    margin-bottom: 0.7em;
+}
+
+.reference-list strong {
+    font-weight: normal;
+}
+
+.reference-list em {
+    font-style: normal;
+}
+
+.reference-list a {
+    text-decoration: none;
+}
+
+.reference-list a:hover,
+.reference-list a:focus-visible {
+    text-decoration: underline;
+}
+
+@media (max-width: 480px) {
+    .reference-list {
+        padding-left: 1.5em;
+    }
+}
