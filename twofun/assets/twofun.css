@@ -1,0 +1,5 @@
+/* Page-specific overrides for twofun.html. */
+body {
+    --background-image: url('../twofun/assets/twofun.webp');
+    --background-dim: 0.80;
+}

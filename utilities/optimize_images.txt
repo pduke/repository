@@ -1,0 +1,34 @@
+WEBSITE IMAGE OPTIMIZER
+=======================
+Keep this file and optimize_images.py in the website's utilities/ directory.
+
+From the website root:
+   python3 utilities/optimize_images.py --dry-run
+   python3 utilities/optimize_images.py
+
+The first command previews changes; the second applies them.
+The script finds the website root from its own location, so you can also
+run it by its full path from any directory. An optional positional root
+argument overrides the default.
+
+Automatically scans WebP images under assets directories:
+  Homepage thumbnails:   240 x 180
+  Article thumbnails:    200 x 150
+  CSS backgrounds:       1920 x 1080
+  Other illustrations:   1600 x 1600
+  WebP quality:          85
+
+Backgrounds are detected from CSS background/background-image and
+--background-image declarations, or an assets/backgrounds/ directory.
+No filename list to maintain. Unresolved CSS URLs produce warnings.
+External URLs, animated WebP files and images already within limits
+are skipped (no enlargement or recompression of in-range images).
+Aspect ratios are preserved.
+
+Originals are backed up in a sibling directory outside the website:
+   wpduke.github.io-image-backup/
+Existing backups are not overwritten.
+
+Requires Python 3.9+ and Pillow 9.1+ (already installed on your computer).
+On Debian/Ubuntu, if needed: sudo apt install python3-pil
+Review the output before committing and pushing to GitHub.

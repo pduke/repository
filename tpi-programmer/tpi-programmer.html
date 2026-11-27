@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Paul Duke">
+  <title>The AVR TPI Programmer — Paul Duke</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/tpi-programmer.css">
+</head>
+<body>
+<main>
+  <p><a href="../index.html">&larr; Back to Repository</a></p>
+  <h1>The AVR TPI Programmer</h1>
+  <p class="subtitle">Programming the smallest AVR microcontrollers</p>
+  <p class="byline"><strong>Paul Duke</strong> — Development from 2013 to 2016</p>
+  <p>When I began experimenting with the ATtiny10, I needed a way to program it. This little six-pin processor uses the Tiny Programming Interface (TPI), rather than the conventional AVR in-system programming interface. I decided to build my own programmers, exploring several ways to communicate with these small processors.</p>
+  <h2>The Original Breadboard Programmer</h2>
+  <p>The original AVR_TPI version was built on a breadboard with a standalone ATmega328P and an LCD to display programming status. The photograph below shows two programmers at work. The Arduino Nano on the small yellow breadboard was used to load the firmware into the ATmega328P on the larger breadboard. The ATmega328P, in turn, was the TPI programmer for the little ATtiny10 on its adapter board.</p>
+  <figure class="article-figure">
+    <a href="assets/original-tpi-programmer.webp"><img src="assets/original-tpi-programmer.webp" alt="Original breadboard TPI programmer, Nano ISP programmer and LCD displaying AVR_TPI v1.0"></a>
+    <figcaption>The original development setup, with AVR_TPI v1.0 running on the standalone ATmega328P.</figcaption>
+  </figure>
+  <h2>Communicating with AVRDUDE</h2>
+  <p>Rather than writing a new host application, I retained the AVR910-style serial protocol. The programmer translates commands from AVRDUDE into TPI operations. The later source includes automatic target identification from the device signature, chip erase, flash reads and writes, and access to fuse and lock bits. Its device table covers the ATtiny4, ATtiny5, ATtiny9 and ATtiny10.</p>
+  <h2>A Native USB Programmer</h2>
+  <p>Another approach I explored in 2013 was to eliminate the separate USB-to-serial interface. The USB_TPI project used an AT90USB162 and Dean Camera's LUFA library to provide a native USB virtual serial port. The source also made provision for the ATmega32U4. Timer interrupts and ring buffers handled TPI communications.</p>
+  <p>The recovered project includes the firmware, USB descriptors, an EAGLE schematic and an original photograph. This was a separate implementation from the ATmega328P breadboard programmer shown above.</p>
+  <h2>An Arduino Sketch</h2>
+  <p>In June 2014 I also experimented with an Arduino sketch called ArduinoTPI, based on ArduinoISP. This approach used the Arduino software framework and STK500-style host communications rather than the AVR910 protocol. The sketch survives in the archive, although I have not established whether this version was completed and tested.</p>
+  <h2>The Arduino Uno Version</h2>
+  <p>In March 2016 I adapted the original AVR_TPI breadboard programmer for the Arduino Uno. Much of the original program remained intact, with changes primarily to the pin assignments and TPI communications. The firmware remained native AVR C, compiled with AVR-GCC rather than the Arduino IDE. Version 1.1 used hardware SPI for TPI communications and added ready and error LEDs, a pushbutton and control of the Uno's automatic reset.</p>
+  <p>TPI transfers use a 12-bit frame containing a start bit, eight data bits, parity and two stop bits. The later programmer uses two eight-bit SPI transfers to transmit a frame, with additional idle bits. The receive routine aligns incoming data across SPI bytes. The SPI framing routines in the published source credit the ATtiny10 resources at Junk Plus Arduino.</p>
+  <p>High-voltage programming is also supported by the firmware through control of an external 12 V reset supply, which can be generated from the USB 5 V supply using a MAX662 charge pump. This permits programming devices whose reset function has been disabled. The 12 V supply must be switched with suitable external circuitry; it must not be connected directly to an Uno I/O pin.</p>
+  <p>The pushbutton controls the reset-capacitor connection so that the Uno can be updated through its bootloader when desired, without automatically resetting each time AVRDUDE opens the serial port to program a target. The optional LCD support was retained.</p>
+  <h2>A Practical Application</h2>
+  <p>One application of the programmer was my <a href="../attiny10-candle/attiny10-candle.html">ATtiny10 electronic candle</a>. I made a homemade five-pogo-pin programming probe that contacted pads on the candle PCB, eliminating the need for a permanent programming connector.</p>
+  <h2>Source Code and Project Files</h2>
+  <p>In November 2026 I rediscovered a large collection of my old AVR development files on a drive in my shop computer. Among them were the native USB programmer, the Arduino sketch and the development source for AVR_TPI v1.1, along with the published UNO_TPI version. Although the original v1.0 revision has not been recovered separately, the program itself survives in its later version.</p>
+  <p>The download brings these implementations together with the supporting libNoter and libnerdkits libraries, original Makefiles, AVRDUDE configuration, ATtiny10 test programs, historical source revisions, compiled firmware, schematic and photographs. The USB_TPI makefile references LUFA-120730; the archive includes LUFA-130901 as a possible substitute. Its compatibility has not been tested.</p>
+  <p>The Uno Makefile targets the ATmega328P at 16 MHz, with serial communication at 115200 baud. It enables the optional LCD by default. The commands <code>make</code> and <code>make flash</code> build and upload the programmer firmware respectively, using AVRDUDE and the Arduino bootloader for the upload. Review paths, serial ports and other build settings before use. The recovered firmware has not been rebuilt or tested for this article.</p>
+  <p><strong><a href="downloads/tpi-programmer.zip" download>Download the recovered TPI programmer project archive (14.2 MB)</a></strong></p>
+  <p><a href="https://github.com/pduke/UNO_TPI">UNO_TPI on GitHub</a></p>
+  <footer>
+    <p><em>Paul Duke — November 2026</em></p>
+    <p><a href="../index.html">&larr; Back to Repository</a></p>
+  </footer>
+</main>
+</body>
+</html>

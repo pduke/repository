@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Paul Duke">
+  <title>The ATtiny10 Electronic Candle — Paul Duke</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/attiny10-candle.css">
+</head>
+<body>
+<main>
+  <p><a href="../index.html">&larr; Back to Repository</a></p>
+  <h1>The ATtiny10 Electronic Candle</h1>
+  <p class="subtitle">An exercise in doing more with less</p>
+  <p class="byline"><strong>Paul Duke</strong> — Firmware originally developed in 2013, updated in 2016</p>
+  <p>One of my more enjoyable little electronics projects was an electronic candle built around the ATtiny10. With just 1 KB of program memory, 32 bytes of RAM and four I/O pins, the little processor presented an interesting programming challenge. I wanted something that looked more like a flickering candle than a blinking LED, turned itself on when it got dark and conserved its batteries during the day.</p>
+  <h2>Making the Candle</h2>
+  <p>I designed a small printed circuit board using EAGLE and had boards fabricated. The board mounted directly on a three-AA battery pack, which served as the base of the candle. I cut and rolled paper into a hollow tube that slipped down over the battery pack, forming the shade.</p>
+  <p>Part of the fun was experimenting with different kinds of paper. Different colors, patterns and translucencies produced quite different effects when illuminated from inside. The same electronics could make a variety of candles simply by changing the paper shade.</p>
+  <figure style="margin: 1.5em 0;">
+    <a href="assets/candle-board-render.webp"><img src="assets/candle-board-render.webp" alt="Top and bottom copper traces and silkscreen of the original candle circuit board" style="display: block; width: 100%; height: auto; border-radius: 4px;"></a>
+    <figcaption style="margin-top: 0.6em;">The original EAGLE PCB design, revision 1.1, dated January 2, 2013. Top and bottom views of the 1 &times; 0.8 inch board, with copper pours omitted for clarity.</figcaption>
+  </figure>
+  <h2>Making the Light Flicker</h2>
+  <p>Two LEDs are driven by the processor's hardware PWM outputs. Rather than abruptly changing brightness, the software generates a pseudorandom brightness target for one LED and passes its previous target to the other. Both LEDs transition toward their targets in eight steps, taking roughly 120 milliseconds per cycle. The changing light levels blend together through the paper shade.</p>
+  <h2>Daylight Detection and Battery Conservation</h2>
+  <p>To measure ambient light, the software charges a capacitor and then measures how long it takes to discharge through a photocell. This uses a single I/O pin without requiring the analog-to-digital converter. Separate light and dark thresholds provide hysteresis so the candle does not continually switch on and off around twilight.</p>
+  <p>During daylight the LEDs and PWM timer are turned off, and the processor enters power-down sleep. The watchdog timer wakes it periodically to check the light level. When darkness returns, the candle resumes flickering automatically.</p>
+  <p>In 2016 I added low-battery detection. After a sustained low-battery indication, the normal flicker is replaced by brief occasional flashes, conserving the remaining battery power.</p>
+  <h2>Programming the ATtiny10</h2>
+  <p>The ATtiny10 uses the Tiny Programming Interface (TPI) rather than the conventional AVR SPI programming interface. I made a homemade five-pogo-pin programming probe that mates with pads on the circuit board, eliminating the need for a permanent programming connector on each candle.</p>
+  <h2>Project Files</h2>
+  <p>The recovered project archive includes the original firmware and build files, earlier ATmega328 and ATtiny85 candle designs, EAGLE schematics and board layouts, panelized PCB files, photographs and supporting libraries. These are the historical development files recovered in November 2026; the archived firmware has not been rebuilt.</p>
+  <p><strong><a href="downloads/attiny10-candle.zip" download>Download attiny10-candle.zip</a></strong></p>
+  <footer>
+    <p><em>Paul Duke — November 2026</em></p>
+    <p><a href="../index.html">&larr; Back to Repository</a></p>
+  </footer>
+</main>
+</body>
+</html>

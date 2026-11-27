@@ -1,0 +1,5 @@
+/* Page-specific overrides for attiny10-candle.html. */
+body {
+    --background-image: url('../attiny10-candle/assets/attiny10-candle.webp');
+    --background-dim: 0.60;
+}

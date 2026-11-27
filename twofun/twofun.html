@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Paul Duke">
+  <title>TwoFun — Paul Duke</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/twofun.css">
+</head>
+<body>
+<main>
+  <p><a href="../index.html">&larr; Back to Repository</a></p>
+  <h1>TwoFun</h1>
+  <p class="subtitle">A configurable USB keyboard utility</p>
+  <p class="byline"><strong>Paul Duke</strong> — Originally developed January 2024</p>
+
+  <p>During the COVID lockdowns, with so many people working from home, little USB devices designed to keep computers awake became increasingly popular. Rather than buying one, I decided to make my own. Of course, being a programmer, I couldn’t resist adding a few extra features. The result was TwoFun, a small, configurable USB device that doubles as a keyboard keep-alive and a programmable text-entry device.</p>
+
+  <h2>Two Functions in One Little Box</h2>
+  <p>TwoFun combines two simple USB keyboard utilities in a single device. The first keeps a computer awake by periodically generating keyboard activity. The second sends a predefined string of text whenever a pushbutton is pressed.</p>
+  <p>The device uses an ATmega32U4 microcontroller, which has native USB support and can emulate a keyboard without any special application software running on the host computer.</p>
+
+  <h2>Run Mode</h2>
+  <p>Both functions can be enabled or disabled independently. The keep-alive function sends two successive Caps Lock keystrokes at a configurable interval, restoring the original Caps Lock state. The default interval is 55 seconds.</p>
+  <p>A short press and release of the pushbutton sends the configured text, optionally followed by a carriage return. An RGB LED indicates the operating state and can change brightness to indicate activity.</p>
+
+  <h2>Setup Mode</h2>
+  <p>Holding the pushbutton for approximately three seconds switches modes. In setup mode, a VT100-compatible serial terminal provides a menu for configuring the device. No separate configuration application is required.</p>
+  <ul>
+    <li>Keep-alive enable and interval (5 to 999 seconds).</li>
+    <li>Button text enable, text string and optional carriage return.</li>
+    <li>LED enable, normal brightness and activity brightness.</li>
+    <li>Independent colors for waiting for a terminal connection, setup and run mode.</li>
+  </ul>
+  <p>The configuration is retained in EEPROM so that it survives power removal. Selecting the exit option returns the device to run mode.</p>
+
+  <h2>Hardware</h2>
+  <p>The original software was developed for an ATmega32U4-based board using the Arduino Leonardo board definition. A compatible 5V, 16 MHz Pro Micro is a convenient choice for a compact version.</p>
+  <ul>
+    <li>D4 — pushbutton input (active high).</li>
+    <li>D5, D6 and D9 — red, blue and green LED outputs, respectively.</li>
+    <li>A1 — connection to the processor reset input for software-initiated resets.</li>
+  </ul>
+  <p>The pushbutton requires a defined low level when released, and the LED channels require appropriate current-limiting resistors.</p>
+
+  <h2>The Original TwoFun Units</h2>
+  <p>I originally built two TwoFun units. Mine was assembled on a breadboard, while Holly's was packaged in a nice little enclosure. Both worked well, but mine eventually failed when the USB connector pulled off the microcontroller board.</p>
+  <p>Holly used only the keep-alive function and was quite happy with it. I used both functions for a while, but eventually found myself using only the text-entry feature. I let my computer go to sleep, and when I return, a press of the TwoFun button wakes it up and enters my password. That turned out to be the most useful feature for me. With the keep-alive function disabled, TwoFun became essentially a removable electronic key for my computer. I could tuck it out of sight for everyday use or simply unplug it and take it with me whenever I didn’t want to leave it accessible.</p>
+  <p>After Holly retired, she gave me hers, and I continued using it for quite some time until it suffered the same fate. I liked having that little gadget handy, so nearly three years later I ordered three new Pro Micro boards with USB-C connectors.</p>
+  <p>I may keep the next version on a breadboard again, but this time a little hot glue will provide some strain relief for the USB cable. Sometimes the simplest construction is all that is needed.</p>
+
+  <h2>Potential USB Driver Enhancement</h2>
+  <p>The original implementation saves the selected operating mode in EEPROM and resets the microcontroller when switching between keyboard operation and serial terminal configuration. This was my solution to the USB interface switching problem at the time.</p>
+  <p>A possible enhancement to the Arduino AVR USB core would provide runtime selection of USB interfaces. The ATmega32U4 supports software-controlled USB disconnection and reconnection through its USB controller.</p>
+  <p>By detaching from the host, selecting the appropriate USB descriptors, resetting endpoint and driver state, and reconnecting, the device could potentially switch interfaces without restarting the processor. The host would then enumerate the newly selected configuration.</p>
+  <p>Ideally, this would be a general-purpose extension to the Arduino USB driver rather than a modification specific to TwoFun. Another option worth investigating is retaining both interfaces as a composite USB device and selecting the active application function in software.</p>
+  <p>These are proposed enhancements, not features implemented in the original sketch.</p>
+
+  <h2>Source Code</h2>
+  <p>The sketch was developed using the Arduino Keyboard and EEPROM libraries. The original source is dated January 5, 2024.</p>
+  <p>TwoFun stores its text string in EEPROM without encryption, and the setup menu displays it. It should not be used as a secure password storage device.</p>
+  <p><strong><a href="downloads/twofun.zip" download>Download twofun.zip</a></strong></p>
+
+  <footer>
+    <p><em>Paul Duke — November 2026</em></p>
+    <p><a href="../index.html">&larr; Back to Repository</a></p>
+  </footer>
+</main>
+</body>
+</html>

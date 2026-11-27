@@ -5,3 +5,8 @@ body {
     --background-dim: 0.75;
     /* --background-image: url('index.webp'); */
 }
+
+/* Keep the candle visible when cropping its widescreen thumbnail. */
+.thumbnail-link[href="attiny10-candle/attiny10-candle.html"] img {
+    object-position: right center;
+}

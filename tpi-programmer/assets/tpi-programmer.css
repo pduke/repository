@@ -1,0 +1,5 @@
+/* Page-specific overrides for tpi-programmer.html. */
+body {
+    --background-image: url('../tpi-programmer/assets/tpi-programmer.webp');
+    --background-dim: 0.65;
+}
