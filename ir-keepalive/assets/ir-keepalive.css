@@ -1,0 +1,5 @@
+/* Page-specific overrides for ir-keepalive.html. */
+body {
+    --background-image: url('../ir-keepalive/assets/ir-keepalive.webp');
+    --background-dim: 0.60;
+}

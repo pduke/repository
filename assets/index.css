@@ -2,8 +2,8 @@
    Omit any declaration to use the shared default. */
 
 body {
-    --background-dim: 0.75;
-    /* --background-image: url('index.webp'); */
+    --background-dim: 0.7;
+    --background-image: url('index.webp');
 }
 
 /* Keep the candle visible when cropping its widescreen thumbnail. */

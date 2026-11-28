@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Paul Duke">
+  <title>The ATtiny10 Infrared KeepAlive — Paul Duke</title>
+  <link rel="stylesheet" href="../assets/style.css">
+  <link rel="stylesheet" href="assets/ir-keepalive.css">
+</head>
+<body>
+<main>
+  <p><a href="../index.html">&larr; Back to Repository</a></p>
+  <h1>The ATtiny10 Infrared KeepAlive</h1>
+  <p class="subtitle">Keeping a satellite receiver awake with a sleeping microcontroller</p>
+  <p class="byline"><strong>Paul Duke</strong> — April–June 2014</p>
+  <p>My Dish satellite receiver had a tendency to go to sleep when it hadn't received a command from the remote control for a while. I wanted to keep it awake without having to periodically operate the remote myself. This seemed like another good application for the little ATtiny10.</p>
+  <p>The solution was a battery-powered infrared transmitter that periodically sends the same commands as the remote control. A Select command followed by Cancel, approximately once an hour, keeps the receiver awake.</p>
+  <h2>From Breadboard to Finished Device</h2>
+  <p>The prototype was built on a miniature breadboard using an ATtiny10 mounted on a six-pin adapter, an infrared LED and a visible status LED. With only 1 KB of program memory and 32 bytes of RAM available, the processor was more than adequate for the job.</p>
+  <p>I designed a small printed circuit board in EAGLE and had it fabricated. The board was small enough to fit in the unused space at the end of an ordinary three-cell battery holder. Two holes in the case accommodated the LEDs, and a little hot glue secured the electronics. The battery holder, complete with its own power switch, became the finished enclosure.</p>
+  <h2>Generating the Infrared Signal</h2>
+  <p>The ATtiny10 runs at 8 MHz and uses its hardware timer to generate the infrared carrier, approximately 56 kHz as measured with an oscilloscope. The firmware switches this carrier on for short bursts and varies the interval between bursts to encode the bits of the remote control command.</p>
+  <p>Each 16-bit command is transmitted four times. The Select command is followed by a short pause and the Cancel command. The same hardware timer is also used to pulse the visible status LED, indicating that the device is operating.</p>
+  <h2>Sleeping Most of the Time</h2>
+  <p>Since the transmitter only needs to operate about once an hour, there is no reason to leave the processor running continuously. The analog comparator, ADC and unused digital input buffers are disabled, and the processor spends most of its time in power-down sleep.</p>
+  <p>The watchdog timer wakes the processor approximately every eight seconds. A counter accumulates the elapsed time until it is time to transmit again. At power-up, the counter is initialized so the first transmission takes place immediately after the startup flashes.</p>
+  <p>Once the commands have been sent and the status LED has flashed, the processor returns to sleep. The result is a simple, self-contained device that needs no connection to the receiver other than a clear path for the infrared signal.</p>
+  <h2>A Familiar Little Processor</h2>
+  <p>This project followed my <a href="../attiny10-candle/attiny10-candle.html">ATtiny10 electronic candle</a> and was another opportunity to put a very small microcontroller to practical use. Nearly ten years later, I revisited the keep-alive idea in a different form with <a href="../twofun/twofun.html">TwoFun</a>, using USB keyboard activity to keep a computer awake rather than infrared remote control commands.</p>
+  <h2>Project Files</h2>
+  <p>The recovered project archive contains the original C source, AVR-GCC Makefile, compiled firmware, supporting library, EAGLE schematic and board layout, fabrication files and photographs. The original files are preserved as a historical archive; the firmware has not been rebuilt or retested for this publication.</p>
+  <p><strong><a href="downloads/ir-keepalive.zip" download>Download ir-keepalive.zip</a></strong></p>
+  <footer>
+    <p><em>Paul Duke — November 2026</em></p>
+    <p><a href="../index.html">&larr; Back to Repository</a></p>
+  </footer>
+</main>
+</body>
+</html>
